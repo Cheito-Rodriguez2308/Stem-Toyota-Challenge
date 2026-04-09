@@ -1,0 +1,157 @@
+{
+  "_notes": {
+    "purpose": "Sample repository configuration for the minimal differential-drive simulation stack.",
+    "units": "All values use SI units unless a field name states otherwise.",
+    "modeling_limits": [
+      "The drivetrain model is reduced-order and does not capture wheel slip, contact-rich events, or chassis compliance.",
+      "Sensor models are configurable approximations and do not represent hardware-specific timing or thermal behavior.",
+      "Structural analysis is intentionally separate from the motion stack and is not represented in this sample motion-only configuration."
+    ]
+  },
+  "drive": {
+    "mass_kg": 15.0,
+    "wheel_radius_m": 0.047625,
+    "track_width_m": 0.305,
+    "wheel_base_m": 0.305,
+    "wheel_velocity_response_time_s": 0.22,
+    "drivetrain_drag_n_per_mps": 3.2,
+    "rolling_resistance_n": 6.0,
+    "wheel_inertia_kgm2": 0.0,
+    "battery_internal_resistance_ohm": 0.018,
+    "nominal_battery_voltage_v": 12.0,
+    "min_battery_voltage_v": 8.2,
+    "max_acceleration_mps2": 4.5,
+    "max_angular_acceleration_radps2": 20.0,
+    "left_wheel_radius_scale": 1.0,
+    "right_wheel_radius_scale": 1.0,
+    "left_drive_gain_scale": 1.0,
+    "right_drive_gain_scale": 1.0,
+    "traction_coefficient": 1.0,
+    "enable_battery_sag": true,
+    "enable_acceleration_saturation": true,
+    "motor": {
+      "nominal_voltage_v": 12.0,
+      "stall_torque_nm": 1.8,
+      "free_speed_radps": 42.0,
+      "terminal_resistance_ohm": 0.45,
+      "torque_constant_nm_per_a": 0.22,
+      "back_emf_constant_v_per_radps": 0.22,
+      "rotor_inertia_kgm2": 0.0,
+      "motor_count_per_side": 2
+    }
+  },
+  "sensors": {
+    "left_encoder": {
+      "gaussian_noise_stddev": 0.0008,
+      "static_bias": 0.0,
+      "drift_per_second": 0.0,
+      "quantization_step": 0.0005,
+      "delay_s": 0.0,
+      "dropout_probability": 0.0,
+      "corruption_probability": 0.0,
+      "corruption_scale": 0.0
+    },
+    "right_encoder": {
+      "gaussian_noise_stddev": 0.0008,
+      "static_bias": 0.0,
+      "drift_per_second": 0.0,
+      "quantization_step": 0.0005,
+      "delay_s": 0.0,
+      "dropout_probability": 0.0,
+      "corruption_probability": 0.0,
+      "corruption_scale": 0.0
+    },
+    "imu_heading": {
+      "gaussian_noise_stddev": 0.002,
+      "static_bias": 0.0,
+      "drift_per_second": 0.0002,
+      "quantization_step": 0.0005,
+      "delay_s": 0.01,
+      "dropout_probability": 0.0,
+      "corruption_probability": 0.0,
+      "corruption_scale": 0.0
+    },
+    "gyro": {
+      "gaussian_noise_stddev": 0.01,
+      "static_bias": 0.0,
+      "drift_per_second": 0.0001,
+      "quantization_step": 0.001,
+      "delay_s": 0.005,
+      "dropout_probability": 0.0,
+      "corruption_probability": 0.0,
+      "corruption_scale": 0.0
+    },
+    "enable_dropout": true,
+    "enable_corruption": false,
+    "enable_delay": true,
+    "enable_quantization": true,
+    "enable_odometry_estimator": true
+  },
+  "controllers": {
+    "heading_pid": {
+      "kp": 4.5,
+      "ki": 0.0,
+      "kd": 0.12,
+      "integral_min": -2.0,
+      "integral_max": 2.0,
+      "output_min": -6.0,
+      "output_max": 6.0
+    },
+    "distance_pid": {
+      "kp": 4.0,
+      "ki": 0.0,
+      "kd": 0.08,
+      "integral_min": -2.0,
+      "integral_max": 2.0,
+      "output_min": -8.0,
+      "output_max": 8.0
+    },
+    "feedforward_kv": 4.0,
+    "feedforward_ka": 0.0,
+    "max_voltage_step_per_s": 80.0,
+    "max_linear_speed_mps": 1.5,
+    "max_angular_speed_radps": 6.0,
+    "heading_alignment_threshold_rad": 0.75,
+    "goal_tolerance_m": 0.05,
+    "heading_tolerance_rad": 0.03
+  },
+  "monte_carlo": {
+    "seed": 17,
+    "run_count": 10
+  },
+  "scenarios": [
+    {
+      "name": "straight_line_drive",
+      "type": "straight_line",
+      "target_x_m": 2.0,
+      "target_y_m": 0.0,
+      "target_heading_rad": 0.0,
+      "duration_s": 5.0,
+      "time_step_s": 0.01,
+      "integrator": "rk4",
+      "controller_name": "point_to_point"
+    },
+    {
+      "name": "turn_in_place_90deg",
+      "type": "in_place_turn",
+      "target_x_m": 0.0,
+      "target_y_m": 0.0,
+      "target_heading_rad": 1.57079632679,
+      "duration_s": 3.0,
+      "time_step_s": 0.01,
+      "integrator": "euler",
+      "controller_name": "turn_in_place"
+    },
+    {
+      "name": "point_to_point_autonomous",
+      "type": "point_to_point",
+      "target_x_m": 1.8,
+      "target_y_m": 1.1,
+      "target_heading_rad": 0.35,
+      "duration_s": 6.0,
+      "time_step_s": 0.01,
+      "integrator": "rk4",
+      "controller_name": "point_to_point"
+    }
+  ]
+}
