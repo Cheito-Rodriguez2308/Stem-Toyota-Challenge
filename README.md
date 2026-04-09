@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Robot Competition Simulation Framework
 
 Production-style C++ repository for a differential-drive competition robot simulator and pre-structural analysis workflow.
@@ -265,3 +266,6 @@ This repository is intentionally a reduced-order robotics simulator, not a full 
 - The current control layer is practical and readable, but it does not represent embedded-rate firmware timing, current loops, or advanced optimal control.
 - Structural analysis is intentionally separate from the motion stack. Simplified structural screening can help prioritize later work, but trustworthy full stress maps still require external FEM tools.
 - FDTD is not a structural stress-analysis method and does not belong in the mechanical analysis path.
+=======
+# Stem-Toyota-Challenge
+>>>>>>> origin/main
